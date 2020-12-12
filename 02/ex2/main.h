@@ -1,0 +1,1 @@
+int check_password(char *password, char c, int min, int max);
