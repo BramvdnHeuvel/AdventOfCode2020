@@ -1,0 +1,35 @@
+from typing import Callable, Tuple
+from functools import reduce
+
+def parse_into_brackets(line : str, solver : Callable) -> Tuple[int, int]:
+    """
+        Parse a string. Notice brackets and solve them before continuing.
+        The function returns the answer, the string length
+    """
+    i = 0
+    open_brackets = [i for i in range(len(line)) if line[i] == '(']
+    closed_brackets = [i for i in range(len(line)) if line[i] == ')']
+
+    while open_brackets != []:
+        # Calculate the first deepest bracket set
+        i, j = (max([b for b in open_brackets if b < closed_brackets[0]]), closed_brackets[0])
+
+        solution = solver(line[i+1:j])
+
+        line = line[:i] + str(solution) + line[j+1:]
+    
+        open_brackets = [i for i in range(len(line)) if line[i] == '(']
+        closed_brackets = [i for i in range(len(line)) if line[i] == ')']
+        
+    return solver(line)
+
+
+def solve_puzzle(line : str):
+    """
+        Solve a line puzzle.
+    """
+    puzzles = line.split('*')
+    puzzles = [eval(part) for part in puzzles]
+    return reduce((lambda a, b: a*b), puzzles)
+
+print(sum([parse_into_brackets(line.strip(), solve_puzzle) for line in open('input.txt', 'r')]))
