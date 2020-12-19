@@ -1,7 +1,7 @@
 from typing import Callable, Tuple
 from functools import reduce
 
-def parse_into_brackets(line : str, solver : Callable) -> Tuple[int, int]:
+def parse_into_brackets(line : str, solver : Callable[[str], int]) -> int:
     """
         Parse a string. Notice brackets and solve them before continuing.
         The function returns the answer, the string length
@@ -24,7 +24,7 @@ def parse_into_brackets(line : str, solver : Callable) -> Tuple[int, int]:
     return solver(line)
 
 
-def solve_puzzle(line : str):
+def solve_puzzle(line : str) -> int:
     """
         Solve a line puzzle.
     """
